@@ -8,12 +8,18 @@ html {
 
 header {
 	background-color: rgb(130,130,130);
-	height: 214px;
+	height: 218px;
+}
+
+#categories {
+	background-color: rgb(55,55,55);	/*This provides the background to the subnav.  I would like it to scale to the required dimensions depending on the quantity of links.*/
+	height: 30px;
 }
 
 body {
-	width: 90%;
-	height: 50em;
+	width: 1000px;
+	margin: 0 auto;
+	height: 100em;
 	background-color: #fff;
 }
 
@@ -49,9 +55,11 @@ h2 {
 	padding: 0;
 	width: 100%;
 	height: 130px;
+	overflow: auto;
+	padding-left: 11px;
 }
 
-img {
+.slider_image {
 	clear: right;
 	margin: 0;
 	padding: 0;
@@ -67,7 +75,6 @@ img {
 }*/
 
 nav ul {
-	
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
@@ -78,18 +85,20 @@ nav li {
 	margin: 0;
 	padding: 0;
 	display: inline;
+	padding-left: 30px;
+	padding-right: 30px;
 }
 
 nav a,
 nav  a:link,
 nav a:visited {
 	display: inline-block;
-	border-radius: 4px 4px 0 0;
+	border-radius: 4px 4px 4px 4px;
 	background-color: #e2e2e2;
 	padding: 0.3em 1em;
 	text-decoration: none;
 	color: #000;
-	margin-top: 11px;
+	margin-top: 7px;
 }
 
 nav a:hover,
@@ -99,57 +108,71 @@ nav .current a:visited {
 	background-color: #fff;
 }
 
-article {
-
-}
+/*.category-nav {
+	display: inline;
+	float: left;
+}*/
 
 nav2 ul {
-	margin: 0em;
-	padding: 0em;
-	padding-top: 0.25em;
-	padding-left: 0.2em;
-	
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	text-align: center;
 }
 
 nav2 li {
-	display:;
-	padding: ;
-	/*border-width: 1em;
-	border-color: f2f2f2;*/
+	margin: 0;
+	padding: 0;
+	display: inline;
 }
 
 nav2 a,
 nav2  a:link,
 nav2 a:visited {
 	display: inline-block;
-	border-radius: 4px 4px 4px 4px;
-	background: rgb(199,199,199); /* Old browsers */
-/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2M3YzdjNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEyJSIgc3RvcC1jb2xvcj0iI2NiY2JjYiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjIzJSIgc3RvcC1jb2xvcj0iI2NkY2RjZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjM1JSIgc3RvcC1jb2xvcj0iI2M2YzZjNiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQ1JSIgc3RvcC1jb2xvcj0iI2MwYzBjMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUyJSIgc3RvcC1jb2xvcj0iI2I2YjZiNiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjYxJSIgc3RvcC1jb2xvcj0iI2I5YjliOSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjY0JSIgc3RvcC1jb2xvcj0iI2I5YjliOSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijc0JSIgc3RvcC1jb2xvcj0iI2JkYmRiZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNiYWJhYmEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-background: -moz-linear-gradient(top, rgb(199,199,199) 0%, rgb(203,203,203) 12%, rgb(205,205,205) 23%, rgb(198,198,198) 35%, rgb(192,192,192) 45%, rgb(182,182,182) 52%, rgb(185,185,185) 61%, rgb(185,185,185) 64%, rgb(189,189,189) 74%, rgb(186,186,186) 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(199,199,199)), color-stop(12%,rgb(203,203,203)), color-stop(23%,rgb(205,205,205)), color-stop(35%,rgb(198,198,198)), color-stop(45%,rgb(192,192,192)), color-stop(52%,rgb(182,182,182)), color-stop(61%,rgb(185,185,185)), color-stop(64%,rgb(185,185,185)), color-stop(74%,rgb(189,189,189)), color-stop(100%,rgb(186,186,186))); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top, rgb(199,199,199) 0%,rgb(203,203,203) 12%,rgb(205,205,205) 23%,rgb(198,198,198) 35%,rgb(192,192,192) 45%,rgb(182,182,182) 52%,rgb(185,185,185) 61%,rgb(185,185,185) 64%,rgb(189,189,189) 74%,rgb(186,186,186) 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top, rgb(199,199,199) 0%,rgb(203,203,203) 12%,rgb(205,205,205) 23%,rgb(198,198,198) 35%,rgb(192,192,192) 45%,rgb(182,182,182) 52%,rgb(185,185,185) 61%,rgb(185,185,185) 64%,rgb(189,189,189) 74%,rgb(186,186,186) 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top, rgb(199,199,199) 0%,rgb(203,203,203) 12%,rgb(205,205,205) 23%,rgb(198,198,198) 35%,rgb(192,192,192) 45%,rgb(182,182,182) 52%,rgb(185,185,185) 61%,rgb(185,185,185) 64%,rgb(189,189,189) 74%,rgb(186,186,186) 100%); /* IE10+ */
-background: linear-gradient(to bottom, rgb(199,199,199) 0%,rgb(203,203,203) 12%,rgb(205,205,205) 23%,rgb(198,198,198) 35%,rgb(192,192,192) 45%,rgb(182,182,182) 52%,rgb(185,185,185) 61%,rgb(185,185,185) 64%,rgb(189,189,189) 74%,rgb(186,186,186) 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c7c7c7', endColorstr='#bababa',GradientType=0 ); /* IE6-8 */
-	width: 8.2em;
-	height: 1.3em;
-	text-align: center;
-	/*padding: 0.3em;*/
+	/*border-radius: 4px 4px 0 0;*/
+	background-color: #e2e2e2;
+	padding: 0.2em 1em;		/*This provides the height and width of the button.*/
 	text-decoration: none;
 	color: #000;
-	/*border-width: 1px;
-	border-color:rgb(255,255,255);*/
-	/*border-style: solid;
-	border-width: 0.1px;
-	border-color: #F2F2F2;*/
+	margin-top: 0px;
 }
 
 nav2 a:hover,
 nav2 .current a,
 nav2 .current a:link,
 nav2 .current a:visited {
-	/*background-color: #fff;*/
-	color: #fff;
+	background-color: #fff;
 }
+
+nav2 ul {
+	margin: 0em;
+	padding: 0em;
+	padding-top: 0em;
+	padding-left: 0em;
+}
+
+#image-pane {
+	height: 200px;
+	width: 100%;
+	background-color: rgb(201,201,201);
+	border-bottom: 15px;
+	border-bottom-color:#0D0D0D;
+}
+
+#photo {
+	float: left;
+	margin-left: 20px;
+}
+
+#image_data,
+div dl dt dd,
+div dl dt dd {
+	display: block;
+	width: 40em;
+	padding-left: 20px;
+	font-size:;
+	
+	/*margin-left: 350px;*/
+}
+

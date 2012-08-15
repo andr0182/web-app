@@ -1,10 +1,10 @@
 <?php
 
-$phfinder = getenv('DB_PHFINDER');
+$photofinder = getenv('DB_USER');
 $pass = getenv('DB_PASS');
 $data_source = getenv('DATA_SOURCE');
 
-$db = new PDO($data_aource, $phfinder, $pass);
+$db = new PDO($data_source, $photofinder, $pass);
 
 $db->exec('SET NAMES utf8');
 
