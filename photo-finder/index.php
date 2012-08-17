@@ -1,15 +1,14 @@
 <?php 
 //PDO is php data object
 //add an if statement for each catagory and load all images from that catagory
-//filter sanitize string
 
 require_once 'includes/db.php';
 session_start();
 
-$cat = filter_input(INPUT_GET, 'cat', FILTER_SANITIZE_NUMBER_INT);//Get the variable $id from the query string. This is not what this does beacause we changed the cond? 
+$cat = filter_input(INPUT_GET, 'cat', FILTER_SANITIZE_NUMBER_INT);
 
 if( filter_input(INPUT_GET, 'cat', FILTER_SANITIZE_NUMBER_INT) !== NULL ) {
- 
+	
 	$_SESSION['cat'] = $cat;
 }
 
@@ -25,9 +24,7 @@ $sql->execute();	//We bind ie. fill in the placeholder with a value
 //var_dump($sql->errorInfo());
 $child_categories = $sql->fetchAll();	
 //var_dump($child_categories);
-//if (isset($_POST['num1'])) {
-//	$num1 = $_POST['num1'];
-//}
+
 
 $image_cat = filter_input(INPUT_GET, 'image_cat', FILTER_SANITIZE_NUMBER_INT);
 
@@ -82,8 +79,8 @@ $image_ids = $sql->fetchAll();
 		<nav>
 			<div id="navbar">
 				<ul class="main-nav">
-					<li class="location"><a href="index.php?cat=1">Search By Location</a></li>	<!--This should GET and display category id 1 as a nav-->
-					<li class="subject"><a href="index.php?cat=2">Search By Subject</a></li>	<!--This should GET and display category id 2 as a nav-->
+					<li class="location"><a href="index.php?cat=1">Search By Location</a></li>
+					<li class="subject"><a href="index.php?cat=2">Search By Subject</a></li>
 					<!--<li class="galleries"><a href="#">Galleries</a></li>-->
 					<!--<li class="top-rated"><a href="#">Top Rated</a></li>-->
 				</ul>

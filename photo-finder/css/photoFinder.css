@@ -1,5 +1,4 @@
 @charset "UTF-8";
-/* CSS Document */
 
 html {
 	background-color: rgb(115,115,115);
@@ -171,7 +170,5 @@ nav2 ul {
 	width: 40em;
 	padding-left: 20px;
 	font-size:;
-	
-	/*margin-left: 350px;*/
 }
 
