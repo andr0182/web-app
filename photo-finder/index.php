@@ -4,8 +4,14 @@
 //filter sanitize string
 
 require_once 'includes/db.php';
+session_start();
 
-$cat = filter_input(INPUT_GET, 'cat', FILTER_SANITIZE_NUMBER_INT); //Get the variable $id from the query string. This is not what this does beacause we changed the cond? 
+$cat = filter_input(INPUT_GET, 'cat', FILTER_SANITIZE_NUMBER_INT);//Get the variable $id from the query string. This is not what this does beacause we changed the cond? 
+
+if( filter_input(INPUT_GET, 'cat', FILTER_SANITIZE_NUMBER_INT) !== NULL ) {
+ 
+	$_SESSION['cat'] = $cat;
+}
 
 $sql = $db->prepare('
 	SELECT id, name, parent
@@ -14,9 +20,9 @@ $sql = $db->prepare('
 	ORDER BY name ASC
 ');
 
-$sql->bindValue(':parent',$cat, PDO::PARAM_INT);  //PARAM standsds for parameter.  PDO is PHP data object and how we connect to the database.  This info is datatyping the $cat variable as an integer
+$sql->bindValue(':parent',$_SESSION['cat'], PDO::PARAM_INT);  //PARAM standsds for parameter.  PDO is PHP data object and how we connect to the database.  This info is datatyping the $cat variable as an integer
 $sql->execute();	//We bind ie. fill in the placeholder with a value
-var_dump($sql->errorInfo());
+//var_dump($sql->errorInfo());
 $child_categories = $sql->fetchAll();	
 //var_dump($child_categories);
 //if (isset($_POST['num1'])) {
@@ -25,32 +31,30 @@ $child_categories = $sql->fetchAll();
 
 $image_cat = filter_input(INPUT_GET, 'image_cat', FILTER_SANITIZE_NUMBER_INT);
 
-
 $sql = $db->prepare('
-	SELECT photograph_id, category_id
+	SELECT photograph_id
 	FROM photographs_categories
 	WHERE category_id=:category_id
 ');
 
-
 $sql->bindValue(':category_id',$image_cat, PDO::PARAM_INT);
 $sql->execute();
-var_dump($sql->errorInfo());
+//var_dump($sql->errorInfo());
 $image_ids = $sql->fetchAll();
 
-
-$entries = filter_input(INPUT_GET, 'entries', FILTER_SANITIZE_NUMBER_INT);
-
-$sql = $db->query('
-	SELECT id, title, description, link
-	FROM photographs
-	ORDER BY title ASC
-');
-
-$images = $sql->fetchAll();
-
+		for($i = 0; $i < sizeof($image_ids); $i++) {
+		
+			$sql = $db->prepare('
+				SELECT title, description, link
+				FROM photographs
+				WHERE id = :photograph_id
+			');
+			
+			$sql->bindValue(':photograph_id' ,$image_ids[$i][0], PDO::PARAM_INT);
+			$sql->execute();
+			$cat_images[$i] = $sql->fetch();
+		}
 ?>
-
 
 <!DOCTYPE HTML>
 <html>
@@ -65,8 +69,8 @@ $images = $sql->fetchAll();
 
 <header>
 	
-	<h1>PhotoFinder:</h1>
-	<div id="title"><h2>Your guide to photographic opportunity</h2></div>
+	<h1>PhotoFinder</h1>
+	<!--<div id="title"><h2>Your guide to photographic opportunity</h2></div>-->
 	
 	<div id="slider">
 	<img class="slider_image" src="images/image-1.jpg" alt=""/>
@@ -82,8 +86,6 @@ $images = $sql->fetchAll();
 					<li class="subject"><a href="index.php?cat=2">Search By Subject</a></li>	<!--This should GET and display category id 2 as a nav-->
 					<!--<li class="galleries"><a href="#">Galleries</a></li>-->
 					<!--<li class="top-rated"><a href="#">Top Rated</a></li>-->
-					
-					<!--<li class="location"><a href="index.php?image_cat=8">Search By Location</a></li>-->
 				</ul>
 			</div>
 		</nav>
@@ -95,67 +97,31 @@ $images = $sql->fetchAll();
 			<ul id="category-nav">
 			<?php foreach ($child_categories as $child):?>
 			
-				<li><a href="index.php?image_cat=3"><?php echo $child["name"]?></a></li>	<!--I want to set this up to echo the links for each category of location or subject category?-->
+				<li><a href="index.php?image_cat=<?php echo $child['id'];?>"><?php echo $child["name"]?></a></li>
 				<?php endforeach;?>
-			</ul>	<!--For the various catagories I want to change the query string to cat=x where x is the category id, or is there another way to do this using if statements like we did with asignment 6?-->
+			</ul>
 		</div>
 	</nav2>
 </div>
-
-<?php foreach ($image_ids as $collection):?>
-<?php echo $collection["photograph_id"]?>
-<? endforeach;?>
-
-
 	
-	<?php foreach ($images as $entry):?> 	<!--Can I use $entry instead of $child?-->
-	
+<?php if(isset($cat_images)) :?> 
+<?php foreach ($cat_images as $entry):?>
+		
 <div id="image-pane">
-	<img id="photo" src="<?php echo $entry["link"]?>" alt="">
+	<img id="photo" src="<?php echo $entry["link"];?>" alt="">
 	
 	<dl id="image_data">
 		<dt id"entry_title"></dt>
-		<dd><?php echo $entry["title"]?></dd>
+		<dd><?php echo $entry["title"];?></dd>
 		
 		<dt>Description:</dt>
-		<dd><?php echo $entry["description"]?></dd>
+		<dd><?php echo $entry["description"];?></dd>
 	</dl>
 </div>
-	<?php endforeach;?>
+<br>
 
-
-<!--<article id="location">  This should be id=category?
-		<nav2>
-			<div>
-				<ul class="location-nav">
-					<li><a href="#">Downtown Ottawa</a></li>	I want to set this up to echo the links for each category of location or subject category?
-					<li><a href="#">Rideau Canal</a></li>
-					<li><a href="#">Experimental Farm</a></li>
-					<li><a href="#">Mer Bleue Bog</a></li>
-					<li><a href="#">Stony Swamp</a></li>
-					<li><a href="#">Gatineau Park</a></li>
-				</ul>
-			</div>
-		</nav2>
-</article>-->
-
-<!--<article class="subject">
-		<nav>
-			<div>
-				<ul class="subject-nav">
-					<li><a href="#">Architecture</a></li>
-					<li><a href="#">Landmarks</a></li>
-					<li><a href="#">Landscape</a></li>
-					<li><a href="#">Animals</a></li>
-					<li><a href="#">Birds</a></li>
-					<li><a href="#">Flowers</a></li>
-					<li><a href="#">Waterfalls</a></li>
-				</ul>
-			</div>
-		</nav>
-</article>-->
-
-<!--<article>This will contain a div that encloses the photos, and descriptions.</article>-->
+<?php endforeach;?>
+<?php endif;?>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="js/photoFinder.js"></script>

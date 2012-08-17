@@ -25,11 +25,12 @@ body {
 
 h1 {
 	padding: 0;
-	margin: 0;
-	float: left;
+	width: 13%;
+	margin: 0 auto;
+	/*float: left;
 	padding-left: 10%;
 	padding-right: 2px;
-	padding-top: 0em;
+	padding-top: 0em;*/
 	font-weight: 100;
 	font-size: 1.6em;
 	color: #fff;
@@ -165,10 +166,8 @@ nav2 ul {
 	margin-left: 20px;
 }
 
-#image_data,
-div dl dt dd,
-div dl dt dd {
-	display: block;
+#image_data {
+	display: inline-block;
 	width: 40em;
 	padding-left: 20px;
 	font-size:;
